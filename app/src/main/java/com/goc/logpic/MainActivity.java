@@ -1,22 +1,30 @@
 package com.goc.logpic;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import com.goc.logpic.adaptadores.CartaCursoAdapter;
+import com.goc.logpic.adaptadores.ClickListener;
 import com.goc.logpic.db.DataBaseManagerCurso;
 import com.goc.logpic.model.Curso;
 
-public class MainActivity extends AppCompatActivity/* implements View.OnClickListener */{
+public class MainActivity extends AppCompatActivity {
 
     private Button btnInsertar,btnActualizar, btnBorrar,btnConsultar;
 
@@ -32,6 +40,7 @@ public class MainActivity extends AppCompatActivity/* implements View.OnClickLis
         setContentView(R.layout.activity_main);
 
         Toolbar a=(Toolbar)findViewById(R.id.toolbar);
+
         setSupportActionBar(a);
 
         managerCurso= new DataBaseManagerCurso(this);
@@ -42,11 +51,41 @@ public class MainActivity extends AppCompatActivity/* implements View.OnClickLis
 
         recycler = (RecyclerView) findViewById(R.id.listas);
         recycler.setHasFixedSize(true);
+        //recycler.setLayoutManager(new GridLayoutManager(this,3));
+
 
         lManager = new LinearLayoutManager(this);
         recycler.setLayoutManager(lManager);
-
+    recycler.setSelected(true);
         adapter = new CartaCursoAdapter(listaItemsCursos, this);
+        adapter.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        int itemPosition = recycler.indexOfChild(v);
+                        //    Toast.makeText(MainActivity.this,"Selected item position is---"+ itemPosition,Toast.LENGTH_SHORT).show();
+                        TextView textView = (TextView)v.findViewById(R.id.textview_curso_id);
+                        Toast.makeText(MainActivity.this,"Selected val of clicked position is---"+ textView.getText().toString(),Toast.LENGTH_SHORT).show();
+
+
+                    }
+                }
+
+
+
+
+                //new View.OnClickListener() {
+           // @Override
+            //public void onClick(View v) {
+                //Log.i("DemoRecView", "Pulsado el elemento " + recycler.getChildPosition(v));
+
+            //    Toast.makeText(MainActivity.this, recycler.getChildAdapterPosition(v)+"", Toast.LENGTH_SHORT).show();
+
+            //}
+       // }
+        );
+
         recycler.setAdapter(adapter);
 
         recycler.setItemAnimator(new DefaultItemAnimator());
@@ -109,4 +148,6 @@ public class MainActivity extends AppCompatActivity/* implements View.OnClickLis
         managerCurso.cerrar();
         super.onDestroy();
     }
+
+
 }

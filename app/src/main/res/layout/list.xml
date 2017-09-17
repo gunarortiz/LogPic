@@ -55,11 +55,13 @@
     android:id="@+id/listas"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
     android:paddingBottom="10dp"
     tools:context="com.goc.logpic.MainActivity"
+    android:clickable="true"
 
+    android:background="?attr/selectableItemBackground"
     tools:showIn="@layout/activity_main" />
 <!--</LinearLayout>-->
