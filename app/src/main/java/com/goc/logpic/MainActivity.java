@@ -5,14 +5,10 @@ import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +16,6 @@ import android.widget.Toast;
 import java.util.List;
 
 import com.goc.logpic.adaptadores.CartaCursoAdapter;
-import com.goc.logpic.adaptadores.ClickListener;
 import com.goc.logpic.db.DataBaseManagerCurso;
 import com.goc.logpic.model.Curso;
 
@@ -67,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
                         //    Toast.makeText(MainActivity.this,"Selected item position is---"+ itemPosition,Toast.LENGTH_SHORT).show();
                         TextView textView = (TextView)v.findViewById(R.id.textview_curso_id);
                         Toast.makeText(MainActivity.this,"Selected val of clicked position is---"+ textView.getText().toString(),Toast.LENGTH_SHORT).show();
+                        Intent a=new Intent(MainActivity.this, ShowActivity.class);
+                        a.putExtra("ids",textView.getText().toString());
+                        startActivity(a);
 
 
                     }

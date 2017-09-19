@@ -22,7 +22,6 @@ public class CartaCursoAdapter extends RecyclerView.Adapter<CartaCursoAdapter.Ca
     private  Context mainContext;
     private  List<Curso> items;
     private View.OnClickListener listener;
-    private ClickListener clicklistener = null;
 
     public CartaCursoAdapter(List<Curso> items, Context contexto) {
         this.mainContext = contexto;
@@ -43,9 +42,7 @@ public class CartaCursoAdapter extends RecyclerView.Adapter<CartaCursoAdapter.Ca
 
         @Override
         public void onClick(View v) {
-            if (clicklistener != null) {
-                clicklistener.itemClicked(v, getAdapterPosition());
-            }
+
         }
     }
 

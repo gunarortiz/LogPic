@@ -7,63 +7,79 @@ import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 import android.util.Log;
 
+import com.goc.logpic.model.Curso;
+
 import java.util.ArrayList;
 import java.util.List;
-import com.goc.logpic.model.Curso;
 
 /**
  * Created by gunar on 9/1/17.
  */
 
-public class DataBaseManagerCurso{
+public class DataBaseManagerShow {
 
     private SQLiteDatabase db;
     private DbHelper helper;
 
-    private static final String NOMBRE_TABLA="curso";
+    private static final String NOMBRE_TABLA="item";
 
     private static final String CN_ID="_id";
-    private static final String CN_NOMBRE="nombre";
-    private static final String CN_FECHA="descripcion";
-    private static final String CN_IMGP="precio";
-    private static final String CN_FRECUENCIA="frecuencia";
+    private static final String CN_ID_PARENT="idParent";
+    private static final String CN_SRC="src";
+    private static final String CN_POSITION="position";
+    private static final String CN_NOTE="note";
+    private static final String CN_FLAG="flag";
+    private static final String CN_FECHA_ITEM="fechaItem";
+    private static final String CN_TIPO="tipo";
+
 
     public static final String CREATE_TABLE = "create table " + NOMBRE_TABLA + " ("
             + BaseColumns._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"
             + CN_ID + " integer KEY AUTOINCREMENT, "
-            + CN_NOMBRE + " text NOT NULL, "
-            + CN_FECHA + " text NULL, "
-            + CN_IMGP + " text NULL, "
-            + CN_FRECUENCIA + " text NULL"
+            + CN_ID_PARENT + " text NOT NULL, "
+            + CN_SRC + " text NULL, "
+            + CN_POSITION + " text NULL, "
+            + CN_NOTE + " text NULL, "
+            + CN_FLAG + " text NULL, "
+            + CN_FECHA_ITEM + " text NULL, "
+            + CN_TIPO + " text NULL"
             + ");";
 
-    public DataBaseManagerCurso(Context ctx) {
+    public DataBaseManagerShow(Context ctx) {
         helper= new DbHelper(ctx);
         db=helper.getWritableDatabase();
     }
 
-    private ContentValues generarContentValues(String id, String name, String fecha, String imgp, String frecuencia) {
+    private ContentValues generarContentValues(String id, String idParent, String src, String position, String note, String flag, String fechaItem, String tipo) {
         ContentValues valores = new ContentValues();
         valores.put(CN_ID, id);
-        valores.put(CN_NOMBRE, name);
-        valores.put(CN_FECHA, fecha);
-        valores.put(CN_IMGP, imgp);
-        valores.put(CN_FRECUENCIA, frecuencia);
+        valores.put(CN_ID_PARENT, idParent);
+        valores.put(CN_SRC, src);
+        valores.put(CN_POSITION, position);
+        valores.put(CN_NOTE, note);
+        valores.put(CN_FLAG, flag);
+        valores.put(CN_FECHA_ITEM, fechaItem);
+        valores.put(CN_TIPO, tipo);
+
         return valores;
     }
 
-   public void insertar_4parametros(String id, String nombre, String fecha, String imgp, String frecuencia) {
+   public void insertar_4parametros(String id, String idParent, String src, String position, String note, String flag, String fechaItem, String tipo) {
         //super.getDb().execSQL("INSERT INTO "+);
-        Log.d("cursos_insertar", db.insert(NOMBRE_TABLA, null, generarContentValues(id, nombre, fecha, imgp, frecuencia)) + "");
+        Log.d("cursos_insertar", db.insert(NOMBRE_TABLA, null, generarContentValues(id, idParent, src, position, note, flag, fechaItem, tipo)) + "");
+       //generarContentValues(id, nombre, descripcion, precio);
     }
 
-    public void actualizar_4parametros(String id, String nombre, String fecha, String imgp, String frecuencia) {
+    public void actualizar_4parametros(String id, String idParent, String src, String position, String note, String flag, String fechaItem, String tipo) {
         ContentValues valores = new ContentValues();
         valores.put(CN_ID, id);
-        valores.put(CN_NOMBRE, nombre);
-        valores.put(CN_FECHA, fecha);
-        valores.put(CN_IMGP, imgp);
-        valores.put(CN_FRECUENCIA, frecuencia);
+        valores.put(CN_ID_PARENT, idParent);
+        valores.put(CN_SRC, src);
+        valores.put(CN_POSITION, position);
+        valores.put(CN_NOTE, note);
+        valores.put(CN_FLAG, flag);
+        valores.put(CN_FECHA_ITEM, fechaItem);
+        valores.put(CN_TIPO, tipo);
 
         String [] args= new String[]{id};
         //db.update(NOMBRE_TABLA, valores, "_id=?", args);
@@ -80,14 +96,14 @@ public class DataBaseManagerCurso{
     }
 
     public Cursor cargarCursor() {
-        String [] columnas= new String[]{CN_ID, CN_NOMBRE, CN_FECHA, CN_IMGP, CN_FRECUENCIA};
+        String [] columnas= new String[]{CN_ID, CN_ID_PARENT, CN_SRC, CN_POSITION, CN_NOTE, CN_FLAG, CN_FECHA_ITEM, CN_TIPO};
         return db.query(NOMBRE_TABLA,columnas,null,null,null,null,null );
     }
 
-    Boolean compruebaRegistro(String id) {
+    Boolean compruebaRegistro(String idParent) {
         boolean esta=true;
 
-        Cursor resultSet= db.rawQuery("Select * from " + NOMBRE_TABLA + " WHERE " + CN_ID + "=" + id, null);
+        Cursor resultSet= db.rawQuery("Select * from " + NOMBRE_TABLA + " WHERE " + CN_ID_PARENT + "=" + idParent, null);
         if(resultSet.getCount()<=0)
             esta=false;
         else
@@ -112,14 +128,6 @@ public class DataBaseManagerCurso{
         return list;
     }
 
-
-
-
-
-    ////controlador de Show
-
-
-    //public class
     public DbHelper getHelper() {
         return helper;
     }
